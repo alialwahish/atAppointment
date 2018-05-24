@@ -41,6 +41,45 @@ class userManager(models.Manager):
 
             return True
 
+
+
+
+    def staff_register(self,request):
+        if len(request.POST["name"]) < 3:
+            messages.add_message( request, messages.ERROR, "Name Can't be less than 3 characters!" )
+      
+        if not EMAIL_REGEX.match(request.POST['email']):
+            messages.add_message(request,messages.ERROR,"please use valid Email address")
+
+        if len(request.POST["password"]) < 8:
+            messages.add_message( request, messages.ERROR, "Password must be between 8-32 characters!" )
+        if request.POST["password"] != request.POST["confirm_password"]:
+            messages.add_message( request, messages.ERROR, "Password and Password Confirmation must match!" )
+
+        today=datetime.date.today()
+        if(request.POST["dob"] > str(today)):
+            messages.add_message( request, messages.ERROR, "Date of birth Can't in the future!" )
+       
+        if len(request.POST["dob"]) < 1:
+            messages.add_message( request, messages.ERROR, "Date of birth Can't be Empty!" )
+
+
+        if Users.objects.filter(email=request.POST["email"]).count() > 0:
+            messages.add_message( request, messages.ERROR, "A user with this email already exists!" )
+
+        if len( get_messages(request) ) > 0:
+            return False
+            
+        else:
+            Users.objects.create(
+            name = request.POST["name"],email = request.POST["email"],password = sha256_crypt.hash(request.POST['password']),dob=request.POST['dob'],is_manager=False,is_staff=True,is_customer=False)
+
+            return True
+
+
+
+
+
     def login(self,request):
         print('login user')
         try:
