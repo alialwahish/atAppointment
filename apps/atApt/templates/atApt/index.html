@@ -1,0 +1,61 @@
+<html>
+
+<head>
+    <title>atAppointment</title>
+    <script src='http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="../static/atApt/style.css">
+</head>
+
+<body>
+
+    <div id="index-container">
+
+        <center>
+            <h1><i class="far fa-calendar-plus fa-5x"></i><br>atAppointment</h1><br>
+        </center>
+
+
+        <div class="login-registration">
+            <h2>Log In</h2>
+            {% if messages %} {% for message in messages %}
+            <center>
+                <p class="errors">{{message}}</p>
+            </center>
+            {% endfor %} {% endif %}
+            <form action="/login" method="POST">
+                {% csrf_token %}
+
+                <table>
+                    <tr>
+                        <td>E-mail: </td>
+                        <td>
+                            <input type="text" name="email">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Password: </td>
+                        <td>
+                            <input type="password" name="password">
+                        </td>
+                    </tr>
+                </table>
+
+                <center>
+                    <input type="submit" value="Log In" class="btn btn-primary"> </center>
+                <br>
+            </form>
+
+            <center>
+                <p>Need an account?
+                    <a href="/register">Click here to register</a>.</p>
+            </center>
+
+        </div>
+    </div>
+</body>
+
+</html>

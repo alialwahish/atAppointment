@@ -1,0 +1,80 @@
+<html>
+
+<head>
+    <title>atAppointment</title>
+    <script src='http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="../static/atApt/style.css">
+</head>
+
+<body>
+
+    <div id="index-container">
+
+        <center>
+            <h1>
+                <i class="far fa-calendar-plus fa-5x"></i>
+                <br>atAppointment</h1>
+            <br>
+        </center>
+
+
+        <div class="login-registration">
+            <h2>Register</h2>
+            {% if messages %} {% for message in messages %}
+            <center>
+                <p class="errors">{{message}}</p>
+            </center>
+            {% endfor %} {% endif %}
+            <form action="/register" method="POST">
+                {% csrf_token %}
+                <table>
+                    <tr>
+                        <td>Name:</td>
+                        <td>
+                            <input type="text" name="name">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>E-mail:</td>
+                        <td>
+                            <input type="text" name="email">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Password*:</td>
+                        <td>
+                            <input type="password" name="password">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Repeat Password*:</td>
+                        <td>
+                            <input type="password" name="confirm_password">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Date of Birth:</td>
+                        <td>
+                            <input id="date" type="date" name="dob" style="border: 1px solid#A9A9A9; width: 182px;">
+                        </td>
+                    </tr>
+
+                </table>
+
+                <p class="notes">* Password must be at least 8 characters</p>
+
+                <center>
+                    <input type="submit" value="Register" class="btn btn-primary"> </center>
+            </form>
+
+           <br>
+
+        </div>
+    </div>
+</body>
+
+</html>
