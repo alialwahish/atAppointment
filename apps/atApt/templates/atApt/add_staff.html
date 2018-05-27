@@ -21,43 +21,45 @@
             <br>
         </center>
 
+        <p>Admin Access: {{user.name}}</p>
+        <a href="/logout">Logout</a>
 
         <div class="main">
-            <h2>Add Barber</h2>
+            <h2>Add Staff Member</h2>
             {% if messages %} {% for message in messages %}
             <center>
                 <p class="errors">{{message}}</p>
             </center>
             {% endfor %} {% endif %}
-            <form action="/register" method="POST">
+            <form action="/staff_adding" method="POST">
                 {% csrf_token %}
                 <table>
                     <tr>
-                        <td>Barber Name:</td>
+                        <td>Staff Member Name:</td>
                         <td>
                             <input type="text" name="name">
                         </td>
                     </tr>
                     <tr>
-                        <td>Barber E-mail:</td>
+                        <td>Staff Member E-mail:</td>
                         <td>
                             <input type="text" name="email">
                         </td>
                     </tr>
                     <tr>
-                        <td>Barber Password*:</td>
+                        <td>Staff Member Password*:</td>
                         <td>
                             <input type="password" name="password">
                         </td>
                     </tr>
                     <tr>
-                        <td>Repeat Barber Password*:</td>
+                        <td>Repeat Staff Member Password*:</td>
                         <td>
                             <input type="password" name="confirm_password">
                         </td>
                     </tr>
                     <tr>
-                        <td>Barber's Date of Birth:</td>
+                        <td>Staff Member Date of Birth:</td>
                         <td>
                             <input id="date" type="date" name="dob" style="border: 1px solid#A9A9A9; width: 182px;">
                         </td>
@@ -68,7 +70,7 @@
                 <p class="notes">* Password must be at least 8 characters</p>
 
                 <center>
-                    <input type="submit" value="Add Barber" class="btn btn-primary"> </center>
+                    <input type="submit" value="Add Staff" class="btn btn-primary"> </center>
             </form>
             <br>
         </div>

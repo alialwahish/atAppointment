@@ -29,19 +29,25 @@
                 <p class="errors">{{message}}</p>
             </center>
             {% endfor %} {% endif %}
-            <form action="/[[[[[[[[[[BOOK APPOINTMENT]]]]]]]]]]" method="POST">
+            <form action="/add_appointment" method="POST">
                 {% csrf_token %}
                 <h3><center>
-                    Welcome, Name!
+                    Welcome, {{user.name}}!
                 </center></h3>
+
+                <a href="/logout">Logout</a>
+
                 <table>
                     <tr>
-                        <td><i class="fas fa-cut"></i></td>
-                        <td>Select Barber: </td>
+                        <td><i class="fas fa-user"></i></td>
+                        <td>Select Staff Member: </td>
                         <td>
-                            <select name="barber">
-                                <option value="barber">Barber</option>
-                                <option value="more">Loop Barbers Here</option>
+                            <select name="staff">
+                                <option value="staff">Staff Members</option>
+                                
+                                {%for st in staff%}
+                                <option value="{{st.id}}">{{st.name}}</option>
+                                {%endfor%}
                             </select>
                         </td>
                     </tr>
@@ -67,6 +73,40 @@
             </form>
 
         </div>
+
+    <div class="main">
+        <h2>My Appointments</h2>
+        <table>
+            <tr>
+                
+                <th>Staff Member Name</th>
+                <th>Date/Time</th>
+                <th>Delete</th>
+                
+            </tr>
+
+            {%for apt in user.appointments.all%}
+
+            <tr>
+                <td>{{apt.staff_user.name}}</td>
+                <td>{{apt.appointment_date}} /  {{apt.appointment_time}} </td>
+               
+                <td>
+                    <a href="/delete_appointment/{{apt.id}}">
+                        <button class="btn btn-danger">Remove</button>
+                    </a>
+                </td>
+               
+
+            {%endfor%}
+
+
+
+
+        </table>
+
+        <br>
+    </div>
     </div>
 </body>
 

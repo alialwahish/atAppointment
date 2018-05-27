@@ -19,11 +19,24 @@
             <h1>
                 <i class="far fa-calendar-plus"></i> atAppointment</h1>
             <br>
-        </center>
+            <h2>Staff Dashboard</h2>
+            
+            {% if messages %} {% for message in messages %}
+            <center>
+                <p class="errors">{{message}}</p>
+            </center>
+            {% endfor %} {% endif %}
+        </center>   
 
+        <a href="/logout">Logout</a>
 
         <div class="main">
+               
+    
             <h2>Your Appointments</h2>
+            <h3><center>
+                    Welcome, {{staff.name}}!
+                </center></h3>
             {% if messages %} {% for message in messages %}
             <center>
                 <p class="errors">{{message}}</p>
@@ -39,29 +52,25 @@
                         <th>Remove</th>
                         <th>Update</th>
                     </tr>
+
+                    <p>{{staff_appointments.all.first.customer.name}}</p>
+                    {%for apt in staff_appointments%}
+                    
                     <tr>
-                        <td>Loop Names Here</td>
-                        <td>Loop Emails Here</td>
-                        <td>1/1/2019</td>
-                        <td>12:30PM</td>
-                        <td><a href="[[[[[[[[[[DELETE ROUTE]]]]]]]]]]"><button class="btn btn-danger">Remove</button></a></td>
-                        <td><a href="[[[[[[[[[[UPDATE ROUTE]]]]]]]]]]"><button class="btn btn-primary">Update</button></a></td>
+                        <td>{{apt.customer.name}}</td>
+                        <td>{{apt.customer.email}}</td>
+                        <td>{{apt.appointment_date}}</td>
+                        <td>{{apt.appointment_time}}</td>
+                        <td><a href="/delete_appointment_staff/{{apt.id}}"><button class="btn btn-danger">Remove</button></a></td>
+                        <td><a href="/staff_view"><button class="btn btn-primary">Update</button></a></td>
                     </tr>
 
-                    <!--Sample, delete when loop exists-->
+                    {%endfor%}
 
-                        <tr>
-                        <td>Loop Names Here</td>
-                        <td>Loop Emails Here</td>
-                        <td>1/1/2019</td>
-                        <td>12:30PM</td>
-                        <td><a href="[[[[[[[[[[DELETE ROUTE]]]]]]]]]]"><button class="btn btn-danger">Remove</button></a></td>
-                        <td><a href="[[[[[[[[[[UPDATE ROUTE]]]]]]]]]]"><button class="btn btn-primary">Update</button></a></td>
-                    </tr>
 
                 </table>
 
-                <center><a href="[[[[[[[[[[REMOVE TOP CUT ROUTE]]]]]]]]]]"><button class="btn btn-primary">Finished with Current Appointment</button></a> </center>
+                <center><a href="/staff_delete_first"><button class="btn btn-primary">Finished with Current Appointment</button></a> </center>
                 <br>
             </form>
 

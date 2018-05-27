@@ -21,20 +21,22 @@
             <br>
         </center>
 
+        <a href="/logout">Logout</a>
 
         <div class="main">
             <h2>Manager Dashboard</h2>
+            
             {% if messages %} {% for message in messages %}
             <center>
                 <p class="errors">{{message}}</p>
             </center>
             {% endfor %} {% endif %}
             <center>
-                <a href="[[[[[[[[[[ADD BARBER ROUTE]]]]]]]]]]">
-                    <button class="btn btn-primary">Add New Barber</button>
+                <a href="/add_staff_view">
+                    <button class="btn btn-primary">Add New Staff Member</button>
                 </a>
                 <a href="#barbers">
-                    <button class="btn btn-primary">View Barbers</button>
+                    <button class="btn btn-primary">View Staff Members</button>
                 </a>
                 <a href="#appts">
                     <button class="btn btn-primary">View Appointments</button>
@@ -44,30 +46,38 @@
                 </a>
             </center>
             <br>
+
         </div>
+
         <div class="main" id="barbers">
-            <h2>Barbers</h2>
+            <h2>Staff Members</h2>
+            
             <table>
                 <tr>
-                    <th>Barber Name</th>
-                    <th>Barber Email</th>
-                    <th>Status</th>
+                    <th>Staff Name</th>
+                    <th>Staff Email</th>
+                    <th>Set Status</th>
                     <th>Update</th>
                 </tr>
+
+                {%for st in staff%}
                 <tr>
-                    <td>Loop Names Here</td>
-                    <td>Loop Emails Here</td>
-                    <td>Active or Inactive</td>
-                    <!--If user is currently active -->
+                    <td>{{st.name}}</td>
+                    <td>{{st.email}}</td>
                     <td>
-                        <a href="[[[[[[[[[[ACTIVE/INACTIVE TOGGLE ROUTE]]]]]]]]]]">
+                        <a href="/admin_view">
                             <button class="btn btn-danger">Set Inactive</button>
                         </a>
                     </td>
+                    <!--If user is currently active -->
+                    
+                    <td><a href="/admin_view"><button class="btn btn-primary">Update</button></a></td>
+                    </tr>
                     <!-- If user is currently INactive 
                         <td><a href="[[[[[[[[[[ACTIVE/INACTIVE TOGGLE ROUTE]]]]]]]]]]"><button class="btn btn-danger">Set Active</button></a></td>-->
                 </tr>
 
+                {%endfor%}
             </table>
 
             <br>
@@ -80,23 +90,31 @@
                 <tr>
                     <th>Customer Name</th>
                     <th>Customer Email</th>
-                    <th>Barber Name</th>
+                    <th>Staff Member Name</th>
                     <th>Date/Time</th>
                     <th>Delete</th>
                     <th>Update</th>
                 </tr>
+
+                {%for apt in appts%}
+
                 <tr>
-                    <td>Loop Names Here</td>
-                    <td>Loop Emails Here</td>
-                    <td>Loop Barber Names Here</td>
-                    <td>1/1/2019 at 12:30PM</td>
+                    <td>{{apt.customer.name}}</td>
+                    <td>{{apt.customer.email}}</td>
+                    <td>{{apt.staff_user.name}}</td>
+                    <td>{{apt.appointment_time}}</td>
                     <td>
-                        <a href="[[[[[[[[[[DELETE ROUTE]]]]]]]]]]">
+                        <a href="/delete_appointment_admin/{{apt.id}}">
                             <button class="btn btn-danger">Remove</button>
                         </a>
                     </td>
-                    <td><a href="[[[[[[[[[[UPDATE ROUTE]]]]]]]]]]"><button class="btn btn-primary">Update</button></a></td>
+                    <td><a href="/admin_view"><button class="btn btn-primary">Update</button></a></td>
                 </tr>
+
+                {%endfor%}
+
+
+
 
             </table>
 
@@ -110,22 +128,28 @@
                     <tr>
                         <th>Customer Name</th>
                         <th>Customer Email</th>
-                        <th>Status</th>
-                        <th>Update</th>
+                        <th>Date Of Birth</th>
+                        <th>Set Status</th>
+
+                        
                     </tr>
+                {%for cust in customers%}
+
                     <tr>
-                        <td>Loop Names Here</td>
-                        <td>Loop Emails Here</td>
-                        <td>Active or Inactive</td>
+                        <td>{{cust.name}}</td>
+                        <td>{{cust.email}}</td>
+                        <td>{{cust.dob}}</td>
+                        
                         <!--If user is currently active -->
                         <td>
-                            <a href="[[[[[[[[[[ACTIVE/INACTIVE TOGGLE ROUTE]]]]]]]]]]">
+                            <a href="admin_view">
                                 <button class="btn btn-danger">Set Inactive</button>
                             </a>
                         </td>
                         <!-- If user is currently INactive 
                             <td><a href="[[[[[[[[[[ACTIVE/INACTIVE TOGGLE ROUTE]]]]]]]]]]"><button class="btn btn-danger">Set Active</button></a></td>-->
-                    </tr>
+                    </tr>       
+                {%endfor%}
     
                 </table>
     

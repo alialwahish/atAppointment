@@ -3,6 +3,7 @@ from django.db import models
 from django.contrib import messages
 from django.contrib.messages import get_messages
 import datetime
+
 import re
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-copyZ0-9._-]+\.[a-zA-Z]+$')
 from passlib.hash import sha256_crypt
@@ -11,6 +12,7 @@ from passlib.hash import sha256_crypt
 
 class userManager(models.Manager):
     def customer_register(self,request):
+        print("in customer register")
         if len(request.POST["name"]) < 3:
             messages.add_message( request, messages.ERROR, "Name Can't be less than 3 characters!" )
       
@@ -45,6 +47,7 @@ class userManager(models.Manager):
 
 
     def staff_register(self,request):
+        print("got to models to validate the staff")
         if len(request.POST["name"]) < 3:
             messages.add_message( request, messages.ERROR, "Name Can't be less than 3 characters!" )
       
@@ -111,7 +114,6 @@ class  Users(models.Model):
     email=models.CharField(max_length=255)
     password=models.CharField(max_length=32)
     dob=models.DateField()
-    gender=models.CharField(max_length=5)
     is_manager=models.BooleanField()
     is_staff=models.BooleanField()
     is_customer=models.BooleanField()
@@ -121,22 +123,43 @@ class  Users(models.Model):
 
 class AppointmentsManager(models.Manager):
     def add_appointment(self,request):
-        today=datetime.date.today()
+        id=request.session['logged']
+        user=Users.objects.get(id=id)
+        today=str(datetime.date.today())
         customer=Users.objects.get(id=request.session['logged'])
-        staff_user=request.POST['staff_id']
-        appointment_time=request.POST["appointment_time"]
-        if(appointment_time > str(today)):
-            messages.add_message( request, messages.ERROR, "Appointment time Can't in the future!" )
+        print("Coming from post for staff",request.POST['staff'])
+        staff_user=Users.objects.get(id=request.POST['staff'])
+        print(staff_user.name)
+        print(request.POST["time"])
+        time=request.POST["time"]
+        date=request.POST["date"]
+        print("accepted time!")
+
+
+
+
+        if date<today:
+            messages.add_message( request, messages.ERROR, "Appointment can't be in the past!" )
             return False
         else:
             print("adding appointment")
-            Appointments.objects.create(appointment_time=appointment_time,customer=customer,staff_user=staff_user)
+            Appointments.objects.create(customer=customer,appointment_time=time,staff_user=staff_user,appointment_date=date)
+            print("user created!")
             return True
+    
+    
+    def delete_appointment(self,request,apt_id):
+        Appointments.objects.get(id=apt_id).delete()
+
+    def staff_delete_first(self,request):
+        Appointments.objects.first().delete()
+        
 
 class Appointments(models.Model):
     customer=models.ForeignKey(Users,null=True ,on_delete=models.CASCADE,related_name='appointments')
     staff_user=models.ForeignKey(Users,null=True ,on_delete=models.CASCADE,related_name='staff_user')
     appointment_time=models.CharField(max_length=255)
+    appointment_date = models.CharField(max_length=255)    
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now=True)
     objects=AppointmentsManager()

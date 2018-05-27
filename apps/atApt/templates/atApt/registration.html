@@ -29,7 +29,7 @@
                 <p class="errors">{{message}}</p>
             </center>
             {% endfor %} {% endif %}
-            <form action="/register" method="POST">
+            <form action="/customer_register" method="POST">
                 {% csrf_token %}
                 <table>
                     <tr>
